@@ -1,4 +1,4 @@
-"""This is a project I made based on a Codecademy challenge"""
+"""This is a project I made on Codecademy"""
 
 
 # names of hurricanes
