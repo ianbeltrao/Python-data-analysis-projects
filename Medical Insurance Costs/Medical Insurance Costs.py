@@ -86,10 +86,3 @@ class PatientInfo:
         return self.patients_dictionary
 
         
-
-
-patient_info = PatientInfo(ages, sexes, bmis, num_children, smoker_statuses, regions, insurance_charges)
-
-print(patient_info.smoker_percentage())
-
-#print(np.mean(age))
