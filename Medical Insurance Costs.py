@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-#Separating all the data
+#Separating the data
 data = pd.read_csv("insurance.csv")
 
 ages = data["age"]
@@ -83,5 +83,3 @@ class PatientInfo:
         self.patients_dictionary["regions"] = self.region
         self.patients_dictionary["charges"] = self.insurance_charge
         return self.patients_dictionary
-
-        
