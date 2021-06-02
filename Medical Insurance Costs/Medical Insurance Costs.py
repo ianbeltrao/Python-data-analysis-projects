@@ -1,3 +1,5 @@
+"""This project was made based on a Codecademy idea. I got the data there."""
+
 from typing import Counter
 import pandas as pd
 import numpy as np
