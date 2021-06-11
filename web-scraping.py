@@ -19,18 +19,21 @@ links = []
 for link in a[3:53]:
     links.append(link.get("href"))
 
-#Getting all the books
-pages = []
+#Getting all the books to a list
 all_books = []
 for index in range(len(links)):
+
     wp_per_cat = requests.get(f"http://books.toscrape.com/{links[index]}")
     soup_per_cat = BeautifulSoup(wp_per_cat.content, "html.parser")
+    
+    #Checking if all the books of the category are stored in one page
     num_pages_html = soup_per_cat.select(".current")
     num_pages = 0
     for html in num_pages_html:
         cleaned = html.get_text().strip()
         num_pages += int(cleaned[-1])
     
+    #If all the books are in the same page, here I stored them in the list
     books_per_cat = []
     if num_pages == 0:
         books_html = soup_per_cat.select("h3")
@@ -38,6 +41,8 @@ for index in range(len(links)):
             for a in i.find_all("a"):
                 if 'title' in a.attrs:
                     books_per_cat.append(a['title'].lower())
+
+    #Storing the books from categories that have more than one page
     else:
         link_per_page = links[index].replace("index.html", "page-")
         for num in range(num_pages):
@@ -51,10 +56,12 @@ for index in range(len(links)):
                         books_per_cat.append(a['title'].lower())
     all_books.append(books_per_cat)
 
+#Making the dictionary with the books and categories
 books_dict = {}
 for i in range(len(categories)):
     books_dict[categories[i]] = all_books[i]
 
+#Checking if the book is in stock and in the right section
 def in_stock(title, topic):
     lst = books_dict.get(topic.lower())
     if topic.lower() not in books_dict.keys():
