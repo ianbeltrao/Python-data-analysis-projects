@@ -12,7 +12,7 @@ for i in a[3:53]:
     lst.append(i.string)
 categories = []
 for cat_raw in lst:
-    categories.append(cat_raw.strip())
+    categories.append(cat_raw.strip().lower())
 
 #Separating links per category
 links = []
@@ -31,13 +31,13 @@ for index in range(len(links)):
         cleaned = html.get_text().strip()
         num_pages += int(cleaned[-1])
     
-
+    books_per_cat = []
     if num_pages == 0:
         books_html = soup_per_cat.select("h3")
         for i in books_html:
             for a in i.find_all("a"):
                 if 'title' in a.attrs:
-                    all_books.append(a['title'])
+                    books_per_cat.append(a['title'].lower())
     else:
         link_per_page = links[index].replace("index.html", "page-")
         for num in range(num_pages):
@@ -48,22 +48,24 @@ for index in range(len(links)):
             for i in books_html_per_page:
                 for a in i.find_all("a"):
                     if 'title' in a.attrs:
-                        all_books.append(a['title'])
+                        books_per_cat.append(a['title'].lower())
+    all_books.append(books_per_cat)
 
 books_dict = {}
 for i in range(len(categories)):
     books_dict[categories[i]] = all_books[i]
 
-print(books_dict)
-
+def in_stock(title, topic):
+    lst = books_dict.get(topic.lower())
+    if topic.lower() not in books_dict.keys():
+        return False
+    else:
+        counter = 0
+        for i in lst:
+            if title.lower() == i:
+                counter += 1
+        if counter > 0:
+            return True
+        else:
+            return False
     
-
-    
-
-
-    
-
-
-
-
-
